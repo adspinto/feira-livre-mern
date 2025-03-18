@@ -1,20 +1,24 @@
-# Fetching the minified node image on alpine linux
-FROM node:slim
+FROM node:22-alpine
 
-# Declaring env
-ENV NODE_ENV development
+# Create the app directory
+RUN mkdir -p /fback
+WORKDIR /fback
 
-# Setting up the work directory
-WORKDIR /feira-livre-mern
+# Add package.json and yarn.lock first to leverage Docker cache
+ADD package.json /fback
+ADD yarn.lock /fback
 
-# Copying all the files in our project
-COPY . .
+# Install all dependencies, including development dependencies
+RUN yarn install --frozen-lockfile
 
-# Installing dependencies
-RUN npm install
+# Copy all the application files
+COPY . /fback
 
-# Starting our application
-CMD [ "node", "index.js" ]
+# Build the NestJS app (compile TypeScript to JavaScript)
+RUN yarn build
 
-# Exposing server port
-EXPOSE 5000
+# Expose the port your app is using (adjust if necessary)
+EXPOSE 3000
+
+# Command to start your app
+CMD ["yarn", "start"]

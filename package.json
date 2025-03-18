@@ -1,15 +1,43 @@
 {
   "name": "feira-livre-mern",
   "version": "1.0.0",
-  "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adspinto/feira-livre-mern.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adspinto/feira-livre-mern/issues"
+  },
+  "homepage": "https://github.com/adspinto/feira-livre-mern#readme",
+  "description": "",
   "dependencies": {
-    "express": "^4.21.2"
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.12.1",
+    "nodemon": "^3.1.9",
+    "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.22.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jest": "^28.11.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4"
   }
 }
