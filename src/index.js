@@ -1,32 +1,30 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import dotenv from 'dotenv'
-import mongoose from 'mongoose'
-
-import { getUserById, createUser }  from './controllers/user.js';
-
-
-dotenv.config(); 
-
-mongoose.set("strictQuery", false);
-  
-const mongoDB = process.env.MONGO_URI;
-
-async function main() {
-  await mongoose.connect(mongoDB);
-}
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const config = require('./config/index.js');
+const authRoutes = require('./routes/auth.js');
+const userRoutes = require('./routes/user.js');
 
 const app = express();
-const PORT = process.env.PORT || 3000
+
+mongoose
+  .connect(config.mongodbUri)
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('Error connecting to MongoDB', err);
+  });
 
 app.use(bodyParser.json());
-// Wait for database to connect, logging an error if there is a problem
-main().catch((err) => console.log(err));
+app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
+
 
 app.get('/', (req, res) => {
-    res.send('HELLO FROM 2222');
-})
-app.get('/user/:id', getUserById);
-app.post('/user', createUser);
+  res.send('HELLO FROM 2222');
+});
 
-app.listen(PORT, () => console.log(`Server running on port: http://localhost:${PORT}`));
+app.listen(config.port, () =>
+  console.log(`Server running on port: http://localhost:${config.port}`),
+);

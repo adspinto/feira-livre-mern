@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
 const couponSchema = new mongoose.Schema({
     _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
@@ -10,4 +10,4 @@ const couponSchema = new mongoose.Schema({
 
 const Coupon = mongoose.model('Coupon', couponSchema);
 
-export { Coupon };
+module.exports = Coupon;

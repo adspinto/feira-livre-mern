@@ -1,15 +1,17 @@
-import jwt from 'jsonwebtoken';
-const User = require('../models/user.js')
+
+const jwt = require('jsonwebtoken');
+const User = require('../models/user.js');
+const config = require('../config/index.js')
 
 const generateToken = (user) => {
     return jwt.sign(
         { id: user._id, email: user.email },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' } // Token expires in 1 hour
+        config.jwtSecret,
+        { expiresIn: '1h' }
     );
 };
 
-export const loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -43,3 +45,5 @@ export const loginUser = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+module.exports = { loginUser }
