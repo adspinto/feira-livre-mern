@@ -5,6 +5,10 @@ const config = require('./config');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const storeRoutes = require('./routes/store');
+const reviewsRoutes = require('./routes/reviews');
+const couponRoutes = require('./routes/coupon');
+const productRoutes = require('./routes/product');
+const categoryRoutes = require('./routes/category');
 
 const app = express();
 
@@ -21,6 +25,10 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/store', storeRoutes);
+app.use('/api/category', categoryRoutes);
+app.use('/api/reviews', reviewsRoutes);
+app.use('/api/product', productRoutes);
+app.use('/api/coupon', couponRoutes);
 
 
 app.get('/', (req, res) => {
