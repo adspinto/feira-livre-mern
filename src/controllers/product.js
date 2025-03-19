@@ -1,12 +1,9 @@
 const Product = require('../models/product');
 const Store = require('../models/store');
-const { getUserIdByToken } = require('../utils');
 
 const getProductById = async (req, res) => {
   const { productId } = req.params;
-  const product = await Product.findOne({
-    _id: productId,
-  });
+  const product = await Product.categoryId(productId);
   if (!product || product._isDeleted) {
     return res.status(400).json({ message: 'Product does not exist' });
   }
@@ -17,7 +14,7 @@ const getProductById = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const { name, ...body } = req.body;
-    const userId = getUserIdByToken(req);
+    const userId = req.user._id;
     const store = await Store.findOne({ owner: userId }); 
     if (!store) {
       return res.status(400).json({ message: `This user doesn't have a store` });
@@ -63,7 +60,7 @@ const updateProduct = async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    res.status(200).json(product.getData());
+    res.status(200).json(product);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error', error: error.message });

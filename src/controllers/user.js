@@ -3,9 +3,7 @@ const validator = require('validator');
 
 const getUserById = async (req, res) => {
   const { userId } = req.params;
-  const user = await User.findOne({
-    _id: userId,
-  });
+  const user = await User.findById(userId).select('-password');
   if (!user || user._isDeleted) {
     return res.status(400).json({ message: 'User does not exist' });
   }

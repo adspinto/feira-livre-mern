@@ -2,9 +2,7 @@ const Category = require('../models/category');
 
 const getCategoryById = async (req, res) => {
   const { categoryId } = req.params;
-  const category = await Category.findOne({
-    _id: categoryId,
-  });
+  const category = await Category.findById(categoryId);
   if (!category || category._isDeleted) {
     return res.status(400).json({ message: 'Category does not exist' });
   }
@@ -55,7 +53,7 @@ const updateCategory = async (req, res) => {
       return res.status(404).json({ message: 'Category not found' });
     }
 
-    res.status(200).json(category.getData());
+    res.status(200).json(category);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error', error: error.message });

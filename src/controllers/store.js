@@ -1,5 +1,4 @@
 const Store = require('../models/store.js');
-const { getUserIdByToken } = require('../utils');
 
 const getStoreById = async (req, res) => {
   const { storeId } = req.params;
@@ -16,7 +15,7 @@ const getStoreById = async (req, res) => {
 const createStore = async (req, res) => {
   try {
     const { name, ...body } = req.body;
-    const userId = getUserIdByToken(req);
+    const userId = req.user._id;
     const store = await Store.findOne({ owner: userId });
     if (store && store._isDeleted) {
       return res.status(400).json({
@@ -60,7 +59,7 @@ const updateStore = async (req, res) => {
       return res.status(404).json({ message: 'Store not found' });
     }
 
-    res.status(200).json(store.getData());
+    res.status(200).json(store);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error', error: error.message });
