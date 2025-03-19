@@ -5,12 +5,12 @@ const productSchema = new mongoose.Schema({
     store: {  type: mongoose.Schema.Types.ObjectId, ref: 'Store',  default: null },
     name: { type: String, required: true },
     description: { type: String, default: '' },
-    price: { type: Number, default: null },
+    price: { type: Number, default: 0 },
     availableCoupons: { type: [String], default: [] },
     categories:{ type: [mongoose.Schema.Types.ObjectId], ref: 'Category', default: [] },
     createdBy: {  type: mongoose.Schema.Types.ObjectId, ref: 'User',  default: null },
     type: { type: String,  default: null  },
-    assets: { type: mongoose.Schema.Types.Mixed },
+    assets: { type: mongoose.Schema.Types.Mixed, default: [] },
     _isDeleted: { type: Boolean, default: false },
 }, { timestamps: true });
 
