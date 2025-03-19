@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const storeSchema = new mongoose.Schema({
     _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
     name: { type: String, required: true },
+    _name: { type: String },
     description: { type: String, default: '' },
     reviews: { type: [mongoose.Schema.Types.ObjectId], ref: 'Review', default: [] },
     availableCoupons: { type: [String], default: [] },
@@ -12,6 +13,7 @@ const storeSchema = new mongoose.Schema({
     type: { type: String,  default: null  },
     assets: { type: mongoose.Schema.Types.Mixed },
     storeNumber: { type: Number, default: [] }, 
+    _isDeleted: { type: Boolean, default: false }, 
 
 }, { timestamps: true });
 

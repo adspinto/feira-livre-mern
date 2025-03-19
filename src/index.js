@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const config = require('./config/index.js');
-const authRoutes = require('./routes/auth.js');
-const userRoutes = require('./routes/user.js');
+const config = require('./config');
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+const storeRoutes = require('./routes/store');
 
 const app = express();
 
@@ -19,6 +20,7 @@ mongoose
 app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/store', storeRoutes);
 
 
 app.get('/', (req, res) => {

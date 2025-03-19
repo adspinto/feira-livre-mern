@@ -57,6 +57,11 @@ const updateUser = async (req, res) => {
   try {
     const { userId } = req.params;
     const body = req.body;
+
+    if (Object.hasOwn(body._isDeleted)){
+      return res.status(400).json({ message: `Can't update an user that doesn't exist` });
+    } 
+
     const user = await User.findOneAndUpdate(
       {
         _id: userId,
