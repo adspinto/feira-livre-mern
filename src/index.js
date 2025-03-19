@@ -22,13 +22,13 @@ mongoose
   });
 
 app.use(bodyParser.json());
-app.use('/api/auth', authRoutes);
-app.use('/api/user', userRoutes);
-app.use('/api/store', storeRoutes);
-app.use('/api/category', categoryRoutes);
-app.use('/api/reviews', reviewsRoutes);
-app.use('/api/product', productRoutes);
-app.use('/api/coupon', couponRoutes);
+app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
+app.use('/store', storeRoutes);
+app.use('/category', categoryRoutes);
+app.use('/reviews', reviewsRoutes);
+app.use('/product', productRoutes);
+app.use('/coupon', couponRoutes);
 
 
 app.get('/', (req, res) => {
