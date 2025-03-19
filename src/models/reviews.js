@@ -9,7 +9,7 @@ const reviewSchema = new mongoose.Schema({
     store: {  type: mongoose.Schema.Types.ObjectId, ref: 'Store',  default: null },
     type: { type: String,  default: null  },
     rate: { type: Number, default: [] }, 
-
+    _isDeleted: { type: Boolean, default: false },
 }, { timestamps: true });  
 
 const Review = mongoose.model('Review', reviewSchema);

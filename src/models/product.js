@@ -11,6 +11,7 @@ const productSchema = new mongoose.Schema({
     createdBy: {  type: mongoose.Schema.Types.ObjectId, ref: 'User',  default: null },
     type: { type: String,  default: null  },
     assets: { type: mongoose.Schema.Types.Mixed },
+    _isDeleted: { type: Boolean, default: false },
 }, { timestamps: true });
 
 const Product = mongoose.model('Product', productSchema);

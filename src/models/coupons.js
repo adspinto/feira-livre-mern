@@ -6,6 +6,7 @@ const couponSchema = new mongoose.Schema({
     discountType: { type: String, required: true },
     expirationDate: { type: Date, default: null },
     isActive: { type: Boolean, default: true },
+    _isDeleted: { type: Boolean, default: false },
 }, { timestamps: true });
 
 const Coupon = mongoose.model('Coupon', couponSchema);
