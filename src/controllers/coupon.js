@@ -1,4 +1,5 @@
 const Coupon = require('../models/coupons');
+const Store = require('../models/store');
 
 const getCouponById = async (req, res) => {
   const { couponId } = req.params;
@@ -26,7 +27,7 @@ const createCoupon = async (req, res) => {
     }
 
     const newCoupon = new Coupon({
-      ...body
+      ...body,
     });
     await newCoupon.save();
     res.status(201).json(newCoupon);
@@ -83,19 +84,23 @@ const deleteCoupon = async (req, res) => {
 
 const getCoupons = async (req, res) => {
   try {
-    const {limit = 20, sort = "DESC"} = req.query
-    const sorting = sort === "DESC" ? -1 : 1
-    const coupons = await Coupon.find().sort({ createdAt: sorting}).limit(limit);
-    res.status(200).json(coupons)
+    const { limit = 20, sort = 'DESC', storeId } = req.query;
+    const sorting = sort === 'DESC' ? -1 : 1;
+    const stores = await Store.find({
+      _id: { $or: [{ storeId }] },
+    })
+      .sort({ createdAt: sorting })
+      .limit(limit);
+    res.status(200).json(stores.availableCoupons);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
-}
+};
 module.exports = {
   getCouponById,
   createCoupon,
   updateCoupon,
   deleteCoupon,
-  getCoupons
+  getCoupons,
 };
