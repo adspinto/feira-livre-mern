@@ -5,6 +5,7 @@ const {
   updateCategory,
   createCategory,
   deleteCategory,
+  getCategories,
 } = require('../controllers/category');
 
 const protect = require('../middleware/auth.js');
@@ -13,7 +14,8 @@ const router = express.Router();
 
 router.post('/create', protect, createCategory);
 router.put('/update/:categoryId', protect, updateCategory);
-router.delete('/delete/:categoryId', protect, deleteCategory);
+router.delete('/:categoryId', protect, deleteCategory);
 router.get('/:categoryId', protect, getCategoryById);
+router.get('/', protect, getCategories);
 
 module.exports = router;

@@ -88,9 +88,31 @@ const deleteStore = async (req, res) => {
   }
 };
 
+const getStores = async (req, res) => {
+  try {
+    const {limit = 20, sort = "DESC", filters} = req.query
+    const sorting = sort === "DESC" ? -1 : 1;
+    let findParam = {
+      _isDeleted: { $eq:  false }
+    };
+    if (filters) {
+      const decodedParam = decodeURIComponent(filters);
+      const parsedFilters = JSON.parse(decodedParam); // Parse JSON string into an array
+      
+      findParam = { ...findParam, categories: { $in: parsedFilters.map(item => item.value) } };
+    }
+    const stores = await Store.find(findParam).sort({ createdAt: sorting}).limit(limit);
+    res.status(200).json(stores);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+}
+
 module.exports = {
   getStoreById,
   createStore,
   updateStore,
   deleteStore,
+  getStores
 };

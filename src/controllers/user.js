@@ -101,9 +101,22 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getUsers = async (req, res) => {
+  try {
+    const {limit = 20, sort = "DESC"} = req.query
+    const sorting = sort === "DESC" ? -1 : 1
+    const users = await User.find().sort({ createdAt: sorting}).limit(limit);
+    res.status(200).json(users)
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+}
+
 module.exports = {
   getUserById,
   createUser,
   updateUser,
   deleteUser,
+  getUsers
 };

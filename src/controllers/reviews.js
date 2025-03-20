@@ -82,9 +82,44 @@ const deleteReview = async (req, res) => {
   }
 };
 
+const getReviews = async (req, res) => {
+  try {
+    const { limit = 20, sort = 'DESC', rate, rateType, productId } = req.query;
+    const sorting = sort === 'DESC' ? -1 : 1;
+
+    let findParam = {
+      product: productId,
+      _isDeleted: { $eq: false },
+    };
+    if (rate) {
+      switch (rateType) {
+        case 'lessThen':
+          findParam.rate = { $lte: rate };
+          break;
+        case 'greaterThen':
+          findParam.rate = { $gte: rate };
+          break;
+        case 'equal':
+          findParam.rate = { $eq: rate };
+          break;
+        default:
+          break;
+      }
+    }
+    const reviews = await Review.find(findParam)
+      .sort({ createdAt: sorting })
+      .limit(limit);
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
 module.exports = {
   getReviewById,
   createReview,
   updateReview,
   deleteReview,
+  getReviews,
 };

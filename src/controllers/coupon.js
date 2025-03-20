@@ -81,9 +81,21 @@ const deleteCoupon = async (req, res) => {
   }
 };
 
+const getCoupons = async (req, res) => {
+  try {
+    const {limit = 20, sort = "DESC"} = req.query
+    const sorting = sort === "DESC" ? -1 : 1
+    const coupons = await Coupon.find().sort({ createdAt: sorting}).limit(limit);
+    res.status(200).json(coupons)
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+}
 module.exports = {
   getCouponById,
   createCoupon,
   updateCoupon,
   deleteCoupon,
+  getCoupons
 };

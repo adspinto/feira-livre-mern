@@ -81,10 +81,21 @@ const deleteCategory = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
-
+const getCategories = async (req, res) => {
+  try {
+    const {limit = 20, sort = "DESC"} = req.query
+    const sorting = sort === "DESC" ? -1 : 1
+    const categories = await Category.find().sort({ createdAt: sorting}).limit(limit);
+    res.status(200).json(categories)
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+}
 module.exports = {
   getCategoryById,
   createCategory,
   updateCategory,
   deleteCategory,
+  getCategories
 };

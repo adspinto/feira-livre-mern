@@ -15,9 +15,11 @@ const createProduct = async (req, res) => {
   try {
     const { name, ...body } = req.body;
     const userId = req.user._id;
-    const store = await Store.findOne({ owner: userId }); 
+    const store = await Store.findOne({ owner: userId });
     if (!store) {
-      return res.status(400).json({ message: `This user doesn't have a store` });
+      return res
+        .status(400)
+        .json({ message: `This user doesn't have a store` });
     }
     const product = await Product.findOne({ _id: store._id });
     if (product && product._isDeleted) {
@@ -30,7 +32,6 @@ const createProduct = async (req, res) => {
     if (product) {
       return res.status(400).json({ message: 'Product already exists' });
     }
-
 
     const newProduct = new Product({
       ...body,
@@ -89,9 +90,38 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const getProducts = async (req, res) => {
+  try {
+    const { limit = 20, sort = 'DESC', storeId, filters } = req.query;
+    const sorting = sort === 'DESC' ? -1 : 1;
+    let findParam = {
+      store: storeId,
+      _isDeleted: { $eq: false },
+    };
+    if (filters) {
+      const decodedParam = decodeURIComponent(filters);
+      const parsedFilters = JSON.parse(decodedParam); // Parse JSON string into an array
+
+      findParam = {
+        ...findParam,
+        categories: { $in: parsedFilters.map((item) => item.value) },
+      };
+    }
+
+    const products = await Product.find(findParam)
+      .sort({ createdAt: sorting })
+      .limit(limit);
+    res.status(200).json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
 module.exports = {
   getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
+  getProducts,
 };
