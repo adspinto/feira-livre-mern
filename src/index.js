@@ -11,6 +11,7 @@ const productRoutes = require('./routes/product');
 const categoryRoutes = require('./routes/category');
 const fakerRoutes = require('./routes/fakerRoutes');
 const settingsRoutes = require('./routes/settings');
+const searchRoutes = require('./routes/search');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use('/product', productRoutes);
 app.use('/coupon', couponRoutes);
 app.use('/faker', fakerRoutes);
 app.use('/settings', settingsRoutes);
+app.use('/search', searchRoutes);
 
 
 app.get('/', (req, res) => {
