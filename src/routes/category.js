@@ -13,7 +13,7 @@ const protect = require('../middleware/auth.js');
 const router = express.Router();
 
 router.post('/create', protect, createCategory);
-router.put('/update/:categoryId', protect, updateCategory);
+router.put('/:categoryId', protect, updateCategory);
 router.delete('/:categoryId', protect, deleteCategory);
 router.get('/:categoryId', protect, getCategoryById);
 router.get('/', protect, getCategories);

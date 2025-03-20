@@ -3,7 +3,7 @@ const Store = require('../models/store');
 
 const getProductById = async (req, res) => {
   const { productId } = req.params;
-  const product = await Product.categoryId(productId);
+  const product = await Product.findById(productId);
   if (!product || product._isDeleted) {
     return res.status(400).json({ message: 'Product does not exist' });
   }

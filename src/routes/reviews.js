@@ -12,7 +12,7 @@ const protect = require('../middleware/auth.js');
 const router = express.Router();
 
 router.post('/create', protect, createReview);
-router.put('/update/:reviewId', protect, updateReview);
+router.put('/:reviewId', protect, updateReview);
 router.delete('/delete/:reviewId', protect, deleteReview);
 router.get('/:reviewId', protect, getReviewById);
 router.get('/', protect, getReviews);

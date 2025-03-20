@@ -167,7 +167,7 @@ router.post('/review', (req, res) => {
     .then(() => res.json('created'))
     .catch((error) => console.error('Error generating fake reviews:', error));
 });
-router.post('/updateProduct', (req, res) => {
+router.post('/fakerProduct', (req, res) => {
   // Function to update all products with random categories
   const updateProductsWithRandomCategories = async () => {
     // Get all categories
